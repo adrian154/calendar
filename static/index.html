@@ -2,43 +2,63 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:title" content="APPNAME">
-        <meta property="og:description" content="The last online calendar app you'll need.">
         <title>Calendar</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="Online Planner">
         <link rel="stylesheet" href="main.css">
         <link rel="icon" href="favicon.png">
     </head>
     <body>
 
-        <div id="main-container" class="flex-col">
-            <div id="ribbon">
-                <button><b>Today</b></button>
-                <button>Day</button>
-                <button>Week</button>
-                <button>Month</button>
-                <button>Year</button>
-                <button style="float: right">Settings</button>
-            </div>
-            <div id="body" class="flex-row">
-                <div id="left-pane">
-                    <button>Add Event</button>
+        <header>
+            <button id="today-button"><b>Today</b></button>
+            <button id="day-button">Day</button>
+            <button id="week-button">Week</button>
+            <button id="month-button">Month</button>
+            <button id="year-button">Year</button>
+        </header>
+        <main>
+            <div id="calendar-area">
+                <h1 id="calendar-title">Saturday, February 5th</h1>
+                <div id="day-view" style="display: none">
+                    <!-- <div class="task standalone">Do Shit</div> -->
+                    <div id="hours-grid">
+                        <!-- <div class="task" style="grid-area: 19/2/21/3">AP Physics Practice</div> -->
+                    </div>
                 </div>
-                <div id="right-pane">
-                </div>
-            </div>
-        </div>
+                <div id="week-view" style="display: none">
 
-        <!-- Modals -->
+                </div>
+                <div id="month-view" style="display: initial">
+                    <div id="calendar-headings"></div>
+                    <div id="calendar-body"></div>
+                </div>
+                <div id="year-view" style="display: none;">
+
+                </div>
+                <div id="schedule-view" style="display: none">
+
+                </div>
+            </div>
+            <nav>
+                <button>Add Event</button>
+                <div id="sidebar-calendar">
+                    <!-- TODO -->
+                </div>
+            </nav>
+        </main>
+
         <div class="modal-layer" style="display: none">
             <div class="modal" id="event-add-dialog">
-                <h1>Add Event</h1>
-                
+                <h1>Add Event</h1>         
+                <!-- TODO -->
             </div>
         </div>
 
         <!-- Scripts -->
-        <script src="main.js" type="module"></script>
+        <script src="date-format.js"></script>
+        <script src="calendar-views.js"></script>
+        <script src="main.js"></script>
 
     </body>
 </html>

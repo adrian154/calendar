@@ -1,59 +1,140 @@
-import Actor from "./actor.js";
-import * as DateFormat from "./date-format.js";
-import {createElement} from "./helpers.js";
+class VisibilityToggleable {
 
-export class DayView extends Actor {
+    constructor(id) {
+        this.element = document.getElementById(id);
+    }
+
+    show() {
+        this.element.style.display = "";
+    }
+
+    hide() {
+        this.element.style.display = "none";
+    }
+
+}
+
+class DayView extends VisibilityToggleable {
 
     constructor() {
-
-        super();
-
-        // map events to their elements
-        this.eventElements = new Map();
-    
-        // create elements
-        this.hoursGrid = createElement("div", ["hours-grid"]);
-        this.element = createElement("div", ["day-view"], this.hoursGrid);
+        super("day-view");
+        this.hoursGrid = document.getElementById("hours-grid");
         this.addHourMarkers();
-
-        // register event handlers
-        this.on("event update", () => this.onEventUpdate);
-        this.on("event destroy", () => this.onEventDestroy());
-
     }
 
     addHourMarkers() {
         for(let i = 1; i <= 24; i++) {
+
+            // create date
             const date = new Date();
             date.setHours(i, 0);
-            const marker = createElement("div", ["hour"], DateFormat.formatTime(date));
+            
+            // add marker
+            const marker = document.createElement("div");
+            marker.classList.add("hour");
+            marker.textContent = FORMATS.TIME.format(date);
             marker.style.gridRow = `${i} / ${i + 1}`;
             marker.style.gridColumn = "1 / -1";
             this.hoursGrid.append(marker);
+        
         }
     }
 
     onEventUpdate(event) {
-
-        // figure out when the event starts and ends
-        
-
+        // TODO
     }
 
-    onEventDestroy(event) {
-        if(this.eventElements.has(event)) {
-            const element = this.eventElements.get(event);
-            element.remove();
-            this.eventElements.delete(event);
+    update(date) {
+        
+    }
+
+}
+
+class WeekView {
+
+}
+
+class MonthView extends VisibilityToggleable {
+
+    constructor() {
+        super("month-view");
+        this.headings = document.getElementById("calendar-headings");
+        this.body = document.getElementById("calendar-body");
+        this.createHeadings();
+    }
+
+    createHeadings() {
+        // we use the Intl module to generate weekday names using a hardcoded date (Mon 1 Jun 2020)
+        for(let i = 0; i < 7; i++) {
+            const date = new Date(2020, 5, i);
+            const header = document.createElement("div");
+            header.classList.add("header");
+            header.textContent = FORMATS.WEEKDAY.format(date);
+            this.headings.append(header);
         }
     }
 
+    onEventUpdate(event) {
+        // TODO
+    }
+
+    populate(date) {
+
+        // get the first day of the month
+        const firstDayOfMonth = new Date(date).setDate(1);
+
+        // find the first sunday 
+        const firstSunday = new Date(firstDayOfMonth);
+        while(firstSunday.getDay() !== 0) {
+            firstSunday.setDate(firstSunday.getDate() - 1);
+        }
+
+        // move through days of the month
+        let curDate = firstSunday;
+        while(true) {
+
+            // add
+            const cell = document.createElement("div");
+            cell.classList.add("calendar-cell");
+            this.body.append(cell);
+
+            // populate the cell
+            if(curDate.getDate() == 1) {
+                cell.textContent =  FORMATS.DAY_OF_MONTH_LONG.format(curDate);
+                cell.style.fontWeight = 500;   
+            } else {
+                cell.textContent = FORMATS.DAY_OF_MONTH_SHORT.format(curDate);
+            }
+
+            // give weekends special treatment
+            if(curDate.getDay() == 0 || curDate.getDay() == 6) {
+                cell.classList.add("weekend");
+            }
+
+            // if the date is a saturday (last column) and the next day is a different month, exit
+            const nextDate = new Date(curDate);
+            nextDate.setDate(nextDate.getDate() + 1); 
+            if(curDate.getDay() == 6 && nextDate.getMonth() != date.getMonth()) {
+                break;
+            }
+
+            // increment
+            curDate = nextDate;
+
+        }
+
+    }
+
+    update(date) {
+        this.populate(date);
+    }
+
 }
 
-export class MonthView {
+class YearView {
 
 }
 
-export class YearView {
+class ScheduleView {
 
 }

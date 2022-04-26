@@ -1,4 +1,8 @@
-import {DayView} from "./calendar-views.js";
+const dayView = new DayView();
+const monthView = new MonthView();
 
-const view = new DayView();
-document.getElementById("right-pane").append(view.element);
+monthView.update(new Date());
+
+const onEventUpdate = event => {
+    dayView.onEventUpdate(event);
+};
