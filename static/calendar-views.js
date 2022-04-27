@@ -66,11 +66,24 @@ class MonthView extends VisibilityToggleable {
     createHeadings() {
         // we use the Intl module to generate weekday names using a hardcoded date (Mon 1 Jun 2020)
         for(let i = 0; i < 7; i++) {
+
+            // add the header
             const date = new Date(2020, 5, i);
             const header = document.createElement("div");
             header.classList.add("header");
-            header.textContent = FORMATS.WEEKDAY.format(date);
             this.headings.append(header);
+
+            // add two headings; which one is displayed depends on the width of the screen
+            const wide = document.createElement("span");
+            wide.classList.add("wide");
+            wide.textContent = FORMATS.WEEKDAY.format(date);
+            header.append(wide);
+
+            const narrow = document.createElement("span");
+            narrow.classList.add("narrow");
+            narrow.textContent = FORMATS.WEEKDAY_NARROW.format(date);
+            header.append(narrow);
+
         }
     }
 

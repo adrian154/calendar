@@ -41,11 +41,31 @@ nav {
     flex-basis: 18em;
 }
 
+#calendar-inner {
+    padding: 1.0rem;
+}
+
+@media (max-width: 800px) {
+    
+    main {
+        flex-direction: column;
+    }
+
+    nav {
+        order: -1;
+        flex-basis: 0;
+    }
+
+    #calendar-inner {
+        padding: 0;
+    }
+
+}
+
 #calendar-area {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
-    padding: 1.5em;
 }
 
 #calendar-area > div {
@@ -54,7 +74,8 @@ nav {
 
 #calendar-title {
     font-weight: 400;
-    margin-top: 0;  
+    margin: 0;  
+    padding: 1.0rem;
 }
 
 /* ----- ribbon ----- */
@@ -91,6 +112,8 @@ header button:hover {
     font-size: 10pt;
     color: #777;
     border-bottom: 1px solid #ddd;
+    padding: 4px;
+    box-sizing: border-box;
 }
 
 .task {
@@ -105,6 +128,12 @@ header button:hover {
 
 .task.standalone {
     margin: 0.5em 0;
+}
+
+@media (max-width: 800px) {
+    .hour {
+        height: 5.0em;
+    }
 }
 
 /* ----- month view ----- */
@@ -125,13 +154,27 @@ header button:hover {
 }
 
 .header {
-    font-size: 12pt;
+    font-size: 11pt;
     color: #aaa;
     margin-bottom: 0;
 }
 
+.header .narrow { display: none; }
+
+@media (max-width: 800px) {
+
+    /* show the narrow weekday headers when the screen is narrow */
+    .header .narrow {
+        display: block;
+        text-align: center;
+    }
+    .header .wide { display: none; }
+
+}
+
 .calendar-cell {
     background-color: #fff;
+    font-size: 10pt;
 }
 
 .calendar-cell.weekend {
